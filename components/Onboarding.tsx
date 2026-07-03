@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useStore, type AvatarId } from "@/lib/store";
-import { Mascota } from "./Mascota";
+import { MascotaAvatar } from "./Mascota";
 
-const AVATARES: { id: AvatarId; nombre: string; cara: string }[] = [
-  { id: "llama", nombre: "Llama", cara: "🦙" },
-  { id: "condor", nombre: "Cóndor", cara: "🦅" },
-  { id: "rana", nombre: "Rana", cara: "🐸" },
+const AVATARES: { id: AvatarId; nombre: string }[] = [
+  { id: "llama", nombre: "Llama" },
+  { id: "condor", nombre: "Cóndor" },
+  { id: "rana", nombre: "Rana" },
 ];
 
 export function Onboarding() {
@@ -16,20 +16,13 @@ export function Onboarding() {
   const [avatar, setAvatar] = useState<AvatarId>("llama");
 
   const listo = nombre.trim().length >= 2;
-  const elegido = AVATARES.find((a) => a.id === avatar)!;
 
   return (
     <div className="onboarding-fondo">
       <div className="tarjeta onboarding-tarjeta">
-        {avatar === "llama" ? (
-          <div key="llama" className="companero-grande" style={{ background: "transparent", border: "none" }}>
-            <Mascota animo="feliz" style={{ width: 116 }} />
-          </div>
-        ) : (
-          <div key={avatar} className="companero-grande" role="img" aria-label={elegido.nombre}>
-            {elegido.cara}
-          </div>
-        )}
+        <div key={avatar} className="companero-grande" style={{ background: "transparent", border: "none" }}>
+          <MascotaAvatar avatar={avatar} animo="feliz" style={{ width: 116 }} />
+        </div>
         <h1 style={{ marginTop: 6 }}>¡Hola! Soy Kusi</h1>
         <p className="texto-suave" style={{ fontWeight: 700, marginTop: 4 }}>
           Bienvenido a la EcoPatrulla. ¿Cómo te llamas, futuro guardián del planeta?
@@ -53,7 +46,9 @@ export function Onboarding() {
               onClick={() => setAvatar(a.id)}
               type="button"
             >
-              <div className="avatar-cara">{a.cara}</div>
+              <div className="avatar-cara">
+                <MascotaAvatar avatar={a.id} animo="feliz" style={{ width: 46 }} />
+              </div>
               {a.nombre}
             </button>
           ))}

@@ -698,7 +698,12 @@ img { max-width: 100%; display: block; }
 }
 .avatar-opcion:hover { transform: translateY(-2px); }
 .avatar-opcion.elegido { background: var(--verde-claro); border-color: var(--verde-oscuro); }
-.avatar-opcion .avatar-cara { font-size: 2.1rem; line-height: 1.2; }
+.avatar-opcion .avatar-cara {
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 2px;
+}
 
 /* ── Toasts ────────────────────────────────────────────────────────── */
 .toasts {
@@ -811,6 +816,50 @@ img { max-width: 100%; display: block; }
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.18); opacity: 0.8; }
 }
+
+/* Cóndor (Illa): aleteo suave, más enérgico al celebrar */
+.mascota-svg .condor-ala {
+  transform-box: fill-box;
+  transform-origin: 90% 50%;
+  animation: condor-aletea 3.2s ease-in-out infinite;
+}
+.mascota-svg .condor-ala-der { transform-origin: 10% 50%; }
+@keyframes condor-aletea {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-6deg) translateY(-2px); }
+}
+.mascota-svg .condor-ala-der { animation-name: condor-aletea-der; }
+@keyframes condor-aletea-der {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(6deg) translateY(-2px); }
+}
+.animo-celebrando .condor-ala { animation-duration: 0.5s; }
+
+/* Rana (Wayra): ojos saltones que laten, patas que se estiran al saltar */
+.mascota-svg .rana-ojo {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: rana-ojo 4s ease-in-out infinite;
+}
+@keyframes rana-ojo {
+  0%, 90%, 100% { transform: scaleY(1); }
+  94%, 96% { transform: scaleY(0.15); }
+}
+.mascota-svg .rana-pata {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+}
+.animo-celebrando .rana-pata-izq { animation: rana-patea-izq 0.8s cubic-bezier(0.3, 0, 0.3, 1.15) infinite; }
+.animo-celebrando .rana-pata-der { animation: rana-patea-der 0.8s cubic-bezier(0.3, 0, 0.3, 1.15) infinite; }
+@keyframes rana-patea-izq {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(-14deg); }
+}
+@keyframes rana-patea-der {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(14deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mascota-svg * { animation: none !important; }
 }

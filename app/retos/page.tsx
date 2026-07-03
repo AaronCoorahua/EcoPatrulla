@@ -4,19 +4,28 @@ import { useStore } from "@/lib/store";
 import { INSIGNIAS } from "@/lib/gamificacion";
 import { FAMILIA, RETO_SEMANAL } from "@/lib/datos";
 import { ListaMisiones } from "@/components/Misiones";
+import { MascotaAvatar } from "@/components/Mascota";
+import type { AvatarId } from "@/lib/store";
 
-const CARAS: Record<string, string> = { llama: "🦙", condor: "🦅", rana: "🐸" };
+type FilaRanking = {
+  nombre: string;
+  rol: string;
+  puntos: number;
+  yo: boolean;
+  avatar?: AvatarId;
+};
 
 export default function Retos() {
   const { estado } = useStore();
 
-  const ranking = [
+  const ranking: FilaRanking[] = [
     ...FAMILIA.map((f) => ({ nombre: f.nombre, rol: f.rol, puntos: f.puntos, yo: false })),
     {
       nombre: estado.perfil?.nombre ?? "Tú",
-      rol: `Tú ${CARAS[estado.perfil?.avatar ?? "llama"]}`,
+      rol: "Tú",
       puntos: estado.puntos,
       yo: true,
+      avatar: estado.perfil?.avatar ?? "llama",
     },
   ].sort((a, b) => b.puntos - a.puntos);
 
@@ -61,7 +70,10 @@ export default function Retos() {
             <span className="ranking-pos">{i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}</span>
             <span className="ranking-nombre">
               {r.nombre}
-              <small>{r.rol}</small>
+              <small style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                {r.rol}
+                {r.avatar && <MascotaAvatar avatar={r.avatar} animo="feliz" style={{ width: 22, verticalAlign: "middle" }} />}
+              </small>
             </span>
             <span className="ranking-puntos">{r.puntos.toLocaleString("es-PE")} pts</span>
           </div>
