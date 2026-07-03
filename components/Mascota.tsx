@@ -57,6 +57,118 @@ export function MascotaCara({
   );
 }
 
+// Solo la cabeza de Illa (cóndor): para avatares circulares.
+export function CondorCara({
+  animo = "feliz",
+  style,
+}: {
+  animo?: Animo;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <svg
+      viewBox="34 14 56 56"
+      className={`mascota-svg animo-${animo}`}
+      style={style}
+      role="img"
+      aria-label="Illa"
+    >
+      {/* collar blanco */}
+      <path d="M46 62 q16 12 32 0 q-4 12 -16 12 q-12 0 -16 -12 Z" fill="#f7f3e8" stroke="#20242f" strokeWidth="2.4" strokeLinejoin="round" />
+      {/* cabeza */}
+      <ellipse cx="62" cy="46" rx="16" ry="15" fill="#5a4632" stroke="#20242f" strokeWidth="2.5" />
+      {/* cresta */}
+      <path d="M62 31 q-4 -8 0 -12 q4 4 0 12" fill="#7a3b2e" stroke="#20242f" strokeWidth="2.2" strokeLinejoin="round" />
+      {/* cachetes */}
+      <circle cx="52" cy="50" r="3" fill="#ffb3a6" opacity="0.6" />
+      <circle cx="72" cy="50" r="3" fill="#ffb3a6" opacity="0.6" />
+      {/* pico */}
+      <path d="M56 50 h12 l-3 8 q-3 3 -6 0 Z" fill="#e9a13c" stroke="#20242f" strokeWidth="2.2" strokeLinejoin="round" />
+      <path d="M56 50 q6 3 12 0" fill="none" stroke="#20242f" strokeWidth="1.6" />
+      {animo === "pensando" ? (
+        <>
+          <path d="M52 43 q3 -2.5 5.5 0" fill="none" stroke="#20242f" strokeWidth="2.4" strokeLinecap="round" />
+          <path d="M66 43 q3 -2.5 5.5 0" fill="none" stroke="#20242f" strokeWidth="2.4" strokeLinecap="round" />
+        </>
+      ) : (
+        <>
+          <g className="kusi-ojos">
+            <circle cx="55" cy="44" r="2.6" fill="#20242f" />
+            <circle cx="69" cy="44" r="2.6" fill="#20242f" />
+          </g>
+          <path d="M50 39 q5 -3 9 0 M65 39 q5 -3 9 0" fill="none" stroke="#20242f" strokeWidth="2.2" strokeLinecap="round" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+// Solo la cabeza de Wayra (rana): para avatares circulares.
+export function RanaCara({
+  animo = "feliz",
+  style,
+}: {
+  animo?: Animo;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <svg
+      viewBox="30 24 64 62"
+      className={`mascota-svg animo-${animo}`}
+      style={style}
+      role="img"
+      aria-label="Wayra"
+    >
+      {/* cabeza */}
+      <ellipse cx="62" cy="60" rx="28" ry="22" fill="#57ce80" stroke="#1f5a3a" strokeWidth="2.5" />
+      {/* cachetes */}
+      <circle cx="40" cy="66" r="4" fill="#ffb3a6" opacity="0.7" />
+      <circle cx="84" cy="66" r="4" fill="#ffb3a6" opacity="0.7" />
+      {/* ojos saltones */}
+      <g className="rana-ojo">
+        <circle cx="46" cy="40" r="12" fill="#57ce80" stroke="#1f5a3a" strokeWidth="2.5" />
+        <circle cx="46" cy="40" r="7.5" fill="#fdf8ec" stroke="#1f5a3a" strokeWidth="1.6" />
+      </g>
+      <g className="rana-ojo">
+        <circle cx="78" cy="40" r="12" fill="#57ce80" stroke="#1f5a3a" strokeWidth="2.5" />
+        <circle cx="78" cy="40" r="7.5" fill="#fdf8ec" stroke="#1f5a3a" strokeWidth="1.6" />
+      </g>
+      {animo === "pensando" ? (
+        <>
+          <circle cx="49" cy="42" r="3.2" fill="#1f2b22" />
+          <circle cx="81" cy="42" r="3.2" fill="#1f2b22" />
+          <path d="M52 70 q10 4 20 -2" fill="none" stroke="#1f5a3a" strokeWidth="2.6" strokeLinecap="round" />
+        </>
+      ) : (
+        <>
+          <g className="kusi-ojos">
+            <circle cx="47" cy="41" r="3.4" fill="#1f2b22" />
+            <circle cx="79" cy="41" r="3.4" fill="#1f2b22" />
+            <circle cx="48.5" cy="39.5" r="1.2" fill="#fff" />
+            <circle cx="80.5" cy="39.5" r="1.2" fill="#fff" />
+          </g>
+          <path d="M50 68 q12 10 24 0" fill="none" stroke="#1f5a3a" strokeWidth="2.6" strokeLinecap="round" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+// Selector de cabeza según el avatar (para avatares circulares del chat).
+export function MascotaCaraAvatar({
+  avatar,
+  animo = "feliz",
+  style,
+}: {
+  avatar: AvatarId;
+  animo?: Animo;
+  style?: React.CSSProperties;
+}) {
+  if (avatar === "condor") return <CondorCara animo={animo} style={style} />;
+  if (avatar === "rana") return <RanaCara animo={animo} style={style} />;
+  return <MascotaCara animo={animo} style={style} />;
+}
+
 export function Mascota({
   animo = "feliz",
   className,

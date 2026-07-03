@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { useStore, type ResultadoEscaneo } from "@/lib/store";
 import { EJEMPLOS, MATERIALES, type ResultadoIdentificacion } from "@/lib/residuos";
 import { identificarResiduo, reducirImagen } from "@/lib/vision";
-import { Mascota } from "@/components/Mascota";
+import { companero } from "@/lib/datos";
+import { MascotaAvatar } from "@/components/Mascota";
 import { Confeti } from "@/components/Confeti";
 import { CamaraCaptura } from "@/components/CamaraCaptura";
 import { IconoCamara, IconoSubir, IconoEscanear, IconoCheck, IconoFlecha } from "@/components/Icons";
@@ -35,7 +36,9 @@ function TachoSVG({ color, texto }: { color: string; texto: string }) {
 }
 
 export default function Escanear() {
-  const { registrarEscaneo } = useStore();
+  const { estado, registrarEscaneo } = useStore();
+  const comp = companero(estado.perfil?.avatar);
+  const avatar = estado.perfil?.avatar ?? "llama";
   const [paso, setPaso] = useState<Paso>({ tipo: "elegir" });
   const [arrastrando, setArrastrando] = useState(false);
   const [mensajeIdx, setMensajeIdx] = useState(0);
@@ -120,7 +123,7 @@ export default function Escanear() {
           <span className="esquina bl" /><span className="esquina br" />
         </div>
         <div style={{ width: 90, margin: "0 auto 6px" }}>
-          <Mascota animo="pensando" />
+          <MascotaAvatar avatar={avatar} animo="pensando" />
         </div>
         <p className="analizando-mensaje">
           <span className="puntitos">{MENSAJES_ANALISIS[mensajeIdx]}</span>
@@ -161,10 +164,10 @@ export default function Escanear() {
 
           <div className="consejo-kusi">
             <div style={{ width: 46, flexShrink: 0 }}>
-              <Mascota animo={celebracion ? "celebrando" : "feliz"} />
+              <MascotaAvatar avatar={avatar} animo={celebracion ? "celebrando" : "feliz"} />
             </div>
             <div>
-              <strong>Kusi dice:</strong> {mat.consejo}
+              <strong>{comp.nombre} dice:</strong> {mat.consejo}
               <div className="texto-suave" style={{ fontSize: "0.8rem", marginTop: 4 }}>{mat.dato}</div>
             </div>
           </div>
@@ -217,7 +220,7 @@ export default function Escanear() {
         }}
       >
         <div style={{ width: 92, margin: "0 auto 8px" }}>
-          <Mascota animo="feliz" />
+          <MascotaAvatar avatar={avatar} animo="feliz" />
         </div>
         <p style={{ fontWeight: 800 }}>Arrastra una foto aquí</p>
         <p className="texto-suave" style={{ fontSize: "0.85rem", fontWeight: 700 }}>o usa los botones</p>

@@ -1,4 +1,4 @@
-import { DATOS_CURIOSOS, MINI_RETOS } from "./datos";
+import { DATOS_CURIOSOS, MINI_RETOS, type Companero, COMPANEROS } from "./datos";
 
 // Conversación guiada del chat de Kusi: opciones claras tipo "chips"
 // que llevan a respuestas cortas y cálidas, con siguientes pasos.
@@ -68,11 +68,11 @@ export const GUION: Record<string, NodoGuion> = {
   },
 };
 
-export function saludoDeKusi(nombre: string): string {
+export function saludoDeKusi(nombre: string, comp: Companero = COMPANEROS.llama): string {
   const saludos = [
-    `¡Hola, ${nombre}! 💚 Soy Kusi, tu llama guía. Pregúntame lo que quieras sobre reciclaje, o elige una opción:`,
-    `¡${nombre}! Qué alegría verte 🦙 ¿Qué quieres descubrir hoy?`,
-    `¡Hola, ${nombre}! Estaba masticando pasto… 🌿 ¿En qué te ayudo?`,
+    `¡Hola, ${nombre}! 💚 Soy ${comp.nombre}, ${comp.especie} que te guía. Pregúntame lo que quieras sobre reciclaje, o elige una opción:`,
+    `¡${nombre}! Qué alegría verte 🌿 ¿Qué quieres descubrir hoy?`,
+    `¡Hola, ${nombre}! Aquí ${comp.nombre}, listo para ayudarte 🌿 ¿En qué te ayudo?`,
   ];
   return alAzar(saludos);
 }

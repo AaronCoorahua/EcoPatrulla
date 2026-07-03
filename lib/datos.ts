@@ -105,3 +105,19 @@ export const RETO_SEMANAL = {
   meta: 5000,
   progreso: 3410,
 };
+
+// ── Compañeros: nombre y especie de cada mascota según el avatar elegido ──
+export interface Companero {
+  nombre: string;
+  especie: string; // "la llama", "el cóndor", "la rana"
+}
+
+export const COMPANEROS: Record<string, Companero> = {
+  llama: { nombre: "Kusi", especie: "la llama" },
+  condor: { nombre: "Illa", especie: "el cóndor" },
+  rana: { nombre: "Wayra", especie: "la rana" },
+};
+
+export function companero(avatar: string | undefined): Companero {
+  return COMPANEROS[avatar ?? "llama"] ?? COMPANEROS.llama;
+}

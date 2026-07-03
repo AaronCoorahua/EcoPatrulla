@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { MATERIALES } from "@/lib/residuos";
-import { TIPS_KUSI } from "@/lib/datos";
+import { TIPS_KUSI, companero } from "@/lib/datos";
 import { rangoActual, rangoSiguiente } from "@/lib/gamificacion";
-import { Mascota } from "@/components/Mascota";
+import { MascotaAvatar } from "@/components/Mascota";
 import { ListaMisiones } from "@/components/Misiones";
 import { CountUp } from "@/components/CountUp";
 import { IconoEscanear, IconoFuego, IconoHoja, IconoNube, IconoGota, IconoReciclar, IconoFlecha } from "@/components/Icons";
@@ -25,6 +25,7 @@ export default function Inicio() {
   const { estado } = useStore();
   const [tip] = useState(() => TIPS_KUSI[Math.floor(Math.random() * TIPS_KUSI.length)]);
 
+  const comp = companero(estado.perfil?.avatar);
   const rango = rangoActual(estado.puntos);
   const siguiente = rangoSiguiente(estado.puntos);
   const avance = siguiente
@@ -38,15 +39,15 @@ export default function Inicio() {
           <button
             className="mascota-caja mascota-boton"
             onClick={() => window.dispatchEvent(new CustomEvent("abrir-kusi"))}
-            aria-label="Habla con Kusi"
+            aria-label={`Habla con ${comp.nombre}`}
             type="button"
           >
-            <Mascota animo="feliz" />
+            <MascotaAvatar avatar={estado.perfil?.avatar ?? "llama"} animo="feliz" />
             <span className="habla-hint">¡Háblame!</span>
           </button>
           <div>
             <h1>¡Hola, {estado.perfil?.nombre}!</h1>
-            <div className="burbuja-tip">Kusi dice: “{tip}”</div>
+            <div className="burbuja-tip">{comp.nombre} dice: “{tip}”</div>
           </div>
         </div>
 

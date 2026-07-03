@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "@/lib/store";
 import { GUION, RAICES, saludoDeKusi } from "@/lib/kusi-guiones";
 import { preguntarAKusi, type MensajeChat } from "@/lib/kusi-cliente";
-import { MascotaCara } from "./Mascota";
+import { companero } from "@/lib/datos";
+import { MascotaCaraAvatar } from "./Mascota";
 import { IconoEnviar } from "./Icons";
 
 // Chat con Kusi: conversación guiada con opciones claras (chips) +
@@ -13,6 +14,8 @@ import { IconoEnviar } from "./Icons";
 
 export function ChatKusi() {
   const { estado, charlarConKusi } = useStore();
+  const comp = companero(estado.perfil?.avatar);
+  const avatar = estado.perfil?.avatar ?? "llama";
   const [abierto, setAbierto] = useState(false);
   const [mensajes, setMensajes] = useState<MensajeChat[]>([]);
   const [opciones, setOpciones] = useState<string[]>([]);
@@ -32,7 +35,7 @@ export function ChatKusi() {
   useEffect(() => {
     if (!abierto || saludado.current) return;
     saludado.current = true;
-    kusiDice(saludoDeKusi(estado.perfil?.nombre ?? "amiguito"), RAICES, 600);
+    kusiDice(saludoDeKusi(estado.perfil?.nombre ?? "amiguito", comp), RAICES, 600);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [abierto]);
 
@@ -79,22 +82,22 @@ export function ChatKusi() {
   return (
     <>
       {!abierto && (
-        <button className="kusi-flotante" onClick={() => setAbierto(true)} aria-label="Habla con Kusi">
+        <button className="kusi-flotante" onClick={() => setAbierto(true)} aria-label={`Habla con ${comp.nombre}`}>
           <span className="kusi-carita" aria-hidden="true">
-            <MascotaCara style={{ width: 30 }} />
+            <MascotaCaraAvatar avatar={avatar} style={{ width: 30 }} />
           </span>
-          Habla con Kusi
+          Habla con {comp.nombre}
         </button>
       )}
 
       {abierto && (
-        <div className="chat-panel" role="dialog" aria-label="Chat con Kusi">
+        <div className="chat-panel" role="dialog" aria-label={`Chat con ${comp.nombre}`}>
           <div className="chat-cabecera">
             <span className="kusi-carita" aria-hidden="true">
-              <MascotaCara style={{ width: 30 }} />
+              <MascotaCaraAvatar avatar={avatar} style={{ width: 30 }} />
             </span>
             <div>
-              <strong>Kusi</strong>
+              <strong>{comp.nombre}</strong>
               <small>Tu guía de reciclaje · siempre en línea 🌿</small>
             </div>
             <button className="chat-cerrar" onClick={() => setAbierto(false)} aria-label="Cerrar chat">
@@ -107,7 +110,7 @@ export function ChatKusi() {
               <div key={i} className={`chat-fila ${m.de}`}>
                 {m.de === "kusi" && (
                   <span className="chat-avatar" aria-hidden="true">
-                    <MascotaCara style={{ width: 24 }} />
+                    <MascotaCaraAvatar avatar={avatar} style={{ width: 24 }} />
                   </span>
                 )}
                 <div className="burbuja-chat">{m.texto}</div>
@@ -117,9 +120,9 @@ export function ChatKusi() {
             {escribiendo && (
               <div className="chat-fila kusi">
                 <span className="chat-avatar" aria-hidden="true">
-                  <MascotaCara animo="pensando" style={{ width: 24 }} />
+                  <MascotaCaraAvatar avatar={avatar} animo="pensando" style={{ width: 24 }} />
                 </span>
-                <div className="burbuja-chat escribiendo" aria-label="Kusi está escribiendo">
+                <div className="burbuja-chat escribiendo" aria-label={`${comp.nombre} está escribiendo`}>
                   <span /><span /><span />
                 </div>
               </div>
@@ -152,9 +155,9 @@ export function ChatKusi() {
             <input
               value={texto}
               onChange={(e) => setTexto(e.target.value)}
-              placeholder="Escríbele a Kusi…"
+              placeholder={`Escríbele a ${comp.nombre}…`}
               maxLength={300}
-              aria-label="Tu mensaje para Kusi"
+              aria-label={`Tu mensaje para ${comp.nombre}`}
             />
             <button type="submit" className="chat-enviar" disabled={!texto.trim() || escribiendo} aria-label="Enviar">
               <IconoEnviar style={{ width: 20, height: 20 }} />
